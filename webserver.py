@@ -12,15 +12,16 @@ import random
 def predict_label(comment):
     return label_names[random.choice(chosen_indices)]
 
+import json
 import logging
 from logging.config import dictConfig
+from datetime import datetime
 
-# Log INFO messages to predictions.txt
 dictConfig({
     "version": 1,
     "formatters": {
         "default": {
-            "format": "[%(asctime)s] %(levelname)s: %(message)s",
+            "format": "%(message)s",
         }
     },
     "handlers": {
@@ -36,6 +37,16 @@ dictConfig({
 # Prevent regular app messages getting logged.
 logging.getLogger("werkzeug").disabled = True
 
+# Use Python's structured logging to make it machine-parseable.
+class LogMsg(object):
+    def __init__(self, text, prediction):
+        self.text = text
+        self.prediction = prediction
+        self.time = datetime.now().strftime('%Y-%m-%d %H:%M:%S:%f')
+
+    def __str__(self):
+        return json.dumps({'time': self.time, 'text': self.text, 'prediction': self.prediction})
+
 from flask import Flask, request
 
 app = Flask(__name__)
@@ -44,5 +55,5 @@ app = Flask(__name__)
 def get_prediction():
     comment_text = request.json['comment']
     prediction = predict_label(comment_text)
-    app.logger.info("Comment: \"" + comment_text + "\" Predicted: " + prediction)
+    app.logger.info(LogMsg(comment_text, prediction))
     return "\"" + comment_text + "\"" + " = " + prediction
