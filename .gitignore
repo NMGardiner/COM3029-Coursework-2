@@ -3,3 +3,4 @@ go_emotions_labels
 predictions.txt
 *.csv
 *.log
+.vs
