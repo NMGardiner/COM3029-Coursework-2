@@ -6,6 +6,7 @@ Start our webservice on windows with
 ```
 waitress-serve --listen=127.0.0.1:5000 webserver:app
 ```
+or run the notebook webserver-notebook.ipynb
 
 Run a stress test from command line and export to a log file with
 
