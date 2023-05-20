@@ -4,3 +4,4 @@ predictions.txt
 *.csv
 *.log
 .vs
+*.bin

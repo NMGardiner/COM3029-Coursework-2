@@ -1,17 +1,18 @@
-label_names = [
-    'admiration', 'amusement', 'anger', 'annoyance', 'approval', 'caring', 'confusion',
-    'curiosity', 'desire', 'disappointment', 'disapproval', 'disgust', 'embarrassment', 'excitement', 
-    'fear', 'gratitude', 'grief', 'joy', 'love', 'nervousness', 'optimism',
-    'pride', 'realization', 'relief', 'remorse', 'sadness', 'surprise', 'neutral'
-]
+# Model
+from transformers import AutoTokenizer, BertForSequenceClassification
+import torch
 
-chosen_indices = [0, 1, 2, 3, 7, 10, 15, 17, 18, 20, 24, 25, 26, 27]
+tokenizer = AutoTokenizer.from_pretrained("model")
+model = BertForSequenceClassification.from_pretrained("model")
 
-import random
+def predict_label(prompt):
+    inputs = tokenizer(prompt, return_tensors="pt")
 
-def predict_label(comment):
-    return label_names[random.choice(chosen_indices)]
-
+    outputs = model(**inputs)
+    
+    return torch.argmax(outputs.logits, dim=1).item()
+    
+# Logging
 import json
 import logging
 from logging.config import dictConfig
@@ -47,6 +48,7 @@ class LogMsg(object):
     def __str__(self):
         return json.dumps({'time': self.time, 'text': self.text, 'prediction': self.prediction})
 
+# Webserver
 from flask import Flask, request
 
 app = Flask(__name__)
