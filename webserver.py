@@ -5,12 +5,16 @@ import torch
 tokenizer = AutoTokenizer.from_pretrained("model")
 model = BertForSequenceClassification.from_pretrained("model")
 
+labels = ["admiration", "gratitude", "amusement", "love", "optimism", "joy", "annoyance", "disapproval", "anger", "sadness", "remorse", "curiosity", "surprise", "neutral"]
+
 def predict_label(prompt):
     inputs = tokenizer(prompt, return_tensors="pt")
 
     outputs = model(**inputs)
     
-    return torch.argmax(outputs.logits, dim=1).item()
+    label_index = torch.argmax(outputs.logits, dim=1).item()
+
+    return labels[label_index]
     
 # Logging
 import json
