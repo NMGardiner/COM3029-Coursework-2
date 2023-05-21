@@ -6,3 +6,4 @@ predictions.txt
 .vs
 *.bin
 .ipynb_checkpoints
+*.png
