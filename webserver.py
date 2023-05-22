@@ -64,12 +64,15 @@ from flask import Flask, request
 
 app = Flask(__name__)
 
-@app.route("/", methods=['POST'])
+@app.route("/", methods=['GET', 'POST'])
 def get_prediction():
-    if ((type(request.json) != dict) or (list(request.json.keys()) != ['comment']) or (type(request.json['comment']) != str)):
-        app.logger.info(LogMsgInputFormat400Error())
-        return json.dumps({"success": False, "error":"The message must be JSON in the form json={'comment': string_to_predict}."}), 400
-    comment_text = request.json['comment']
-    prediction = predict_label(comment_text)
-    app.logger.info(LogMsg(comment_text, prediction))
-    return json.dumps({"success": True, "prediction": prediction})
+    if request.method == 'GET':
+        return "To receive predictions, send a POST request in the form json={'comment': string_to_predict}."
+    else:
+        if ((type(request.json) != dict) or (list(request.json.keys()) != ['comment']) or (type(request.json['comment']) != str)):
+            app.logger.info(LogMsgInputFormat400Error())
+            return json.dumps({"success": False, "error":"The message must be JSON in the form json={'comment': string_to_predict}."}), 400
+        comment_text = request.json['comment']
+        prediction = predict_label(comment_text)
+        app.logger.info(LogMsg(comment_text, prediction))
+        return json.dumps({"success": True, "prediction": prediction})
