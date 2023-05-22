@@ -69,7 +69,7 @@ def get_prediction():
     if request.method == 'GET':
         return "To receive predictions, send a POST request in the form json={'comment': string_to_predict}."
     else:
-        if ((type(request.json) != dict) or (list(request.json.keys()) != ['comment']) or (type(request.json['comment']) != str)):
+        if ((type(request.json) != dict) or (list(request.json.keys()) != ['comment']) or (type(request.json['comment']) != str) or (len(request.json["comment"])==0)):
             app.logger.info(LogMsgInputFormat400Error())
             return json.dumps({"success": False, "error":"The message must be JSON in the form json={'comment': string_to_predict}."}), 400
         comment_text = request.json['comment']
