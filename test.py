@@ -34,7 +34,7 @@ class TestApi(unittest.TestCase):
         self.assertEqual(len(response.json().keys()), 2)
         self.assertEqual(response.status_code, self.badRequestSatusCode)
 
-        #test an invalid format. The payload is a dict thatn has more than 1 key-value pairs which is invalid.
+    #test an invalid format. The payload is a dict thatn has more than 1 key-value pairs which is invalid.
     def testWrongFormatZeroKeys(self):
         payload = {}
         response = requests.post(self.adressToMakeRequest, json=payload)
