@@ -15,5 +15,5 @@ locust -f locustfile.py --host=http://localhost:5000 --headless  --logfile=resul
 ```
 or run as a python script
 ```
-python stress_test.py -u <user_count> -r <spawn_rate> -d <duration_of_test>
+python stress_test.py -u <user_count> -r <spawn_rate> -l <duration_of_test>
 ```
