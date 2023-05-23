@@ -1,0 +1,8 @@
+waitress
+requests
+locust
+transformers
+torch
+flask
+tqdm
+datasets
