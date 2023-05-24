@@ -4,7 +4,7 @@ echo "--- Running CI/CD script ---"
 
 # Build and save the model to the ./model directory.
 echo "Training and saving model..."
-#python3 ./build-and-save-model.py
+python3 ./build-and-save-model.py
 
 # Begin the webserver in the background.
 echo "Starting webservice..."
